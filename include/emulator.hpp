@@ -1,0 +1,49 @@
+#ifndef EMULATOR_HPP
+#define EMULATOR_HPP
+
+#include "render_table.hpp"
+#include "memory.hpp"
+#include "audio.hpp"
+#include "cpu.hpp"
+
+#include <string>
+#include <cstdint>
+
+class Emulator {
+    public:
+        Emulator() = default;
+
+        void init_audio();
+        void load_rom_from_file(const std::string& rom_path);
+        bool is_pixel_on(uint8_t x, uint8_t y);
+        void execute_cpu_instruction();
+        void update_cpu_timers();
+    private:
+        static constexpr uint16_t MAX_ROM_SIZE = 0xFFF - PROCESSOR_INTERNAL_PROGRAM_COUNTER_START;
+        static constexpr uint8_t FONTSET_SIZE = 80;
+        static constexpr std::array<uint8_t, FONTSET_SIZE> FONTSET = {
+            0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+            0x20, 0x60, 0x20, 0x20, 0x70, // 1
+            0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+            0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+            0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+            0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+            0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+            0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+            0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+            0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+            0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+            0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+            0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+            0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+            0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+            0xF0, 0x80, 0xF0, 0x80, 0x80, // F
+        };
+
+        CPU m_cpu;
+        Memory m_memory;
+        RenderTable m_render_table;
+        AudioPlayer m_audio_player;
+};
+
+#endif
