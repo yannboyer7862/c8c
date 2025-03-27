@@ -30,6 +30,12 @@ void emulator_load_rom(Emulator* emulator, const char* rom_path) {
     }
 
     rom_buffer = (uint8_t*)malloc(file_len * sizeof(uint8_t));
+
+    if (rom_buffer == NULL) {
+        printf("[ERROR] Unable to allocate memory !\n");
+        exit(EXIT_FAILURE);
+    }
+
     fread(rom_buffer, file_len, 1, rom_file);
     fclose(rom_file);
 
