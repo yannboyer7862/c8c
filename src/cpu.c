@@ -149,7 +149,7 @@ void cpu_execute_instruction(CPU* cpu, uint16_t opcode, RenderTable* render_tabl
                     break;
                 case 0x0007:
                     // SUBN Vx, Vy
-                    cpu->registers[0xF] = cpu->registers[y] > cpu->registers[x];
+                    cpu->registers[0xF] = cpu->registers[y] > cpu->registers[x] ? 1 : 0;
 
                     cpu->registers[x] = cpu->registers[y] - cpu->registers[x];
 
